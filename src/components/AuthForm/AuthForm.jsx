@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE } from '../../common/utils/constant';
 import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import { post } from '../../api/api';
-import { Container } from './AuthForm.style';
+import { Container, Span } from './AuthForm.style';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();
@@ -52,6 +52,25 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
     navigate(ROUTE.TODO);
   };
 
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const emailValidation = () => {
+    formValues.email.length > 0 && !checkEmail(formValues.email)
+      ? setIsValidEmail(false)
+      : setIsValidEmail(true);
+  };
+
+  const [isValidPw, setIsValidPw] = useState(false);
+  const pwValidation = () => {
+    formValues.password.length > 0 && !checkPassword(formValues.password)
+      ? setIsValidPw(false)
+      : setIsValidPw(true);
+  };
+
+  useEffect(() => {
+    emailValidation();
+    pwValidation();
+  });
+
   return (
     <form onSubmit={postForm}>
       <Container>
@@ -59,6 +78,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
           이메일
           <input type="email" name="email" value={formValues.email} onChange={handleChange} />
         </label>
+        {!isValidEmail && <Span>이메일 주소를 정확히 입력해주세요.</Span>}
       </Container>
       <Container>
         <label>
@@ -71,6 +91,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
             onChange={handleChange}
           />
         </label>
+        {!isValidPw && <Span>8글자 이상 입력해주시요.</Span>}
       </Container>
       {
         <input

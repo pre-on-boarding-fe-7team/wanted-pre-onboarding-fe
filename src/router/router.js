@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { ROUTE } from '../common/utils/constant';
-import Main from '../components/Main';
-import NotFound from '../components/NotFound';
+import Main from '../components/Main/Main';
+import NotFound from '../components/NotFound/NotFound';
 import TodoList from '../components/TodoList';
 
 function Router() {

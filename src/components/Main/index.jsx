@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE } from '../../common/utils/constant';
-import AuthForm from '../../components/Auth/AuthForm';
+import AuthForm from '../AuthForm';
 import { Container, Form, SwitchButton, Title } from './index.style';
 
 function Main() {

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE } from '../../common/utils/constant';
 import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import { post } from '../../api/api';
-import { Container } from './AuthForm.style';
+import { Container } from './index.style';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();

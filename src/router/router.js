@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
 import { ROUTE } from '../common/utils/constant';
-import MainPage from '../pages/Main';
-import TodoPage from '../pages/Todo';
-import NotFoundPage from '../pages/NotFound';
+import Main from '../components/Main';
+import NotFound from '../components/NotFound';
+import TodoList from '../components/TodoList';
 
 function Router() {
   return (
     <>
       <Routes>
-        <Route path={ROUTE.MAIN} element={<MainPage />} />
-        <Route path={ROUTE.TODO} element={<TodoPage />} />
-        <Route path={ROUTE.NOT_FOUND} element={<NotFoundPage />} />
+        <Route path={ROUTE.MAIN} element={<Main />} />
+        <Route path={ROUTE.TODO} element={<TodoList />} />
+        <Route path={ROUTE.NOT_FOUND} element={<NotFound />} />
       </Routes>
     </>
   );

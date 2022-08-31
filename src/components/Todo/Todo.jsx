@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
 import List from './List';
-import {
-  TodoListContainer as OuterContainer,
-  InnerContainer,
-  Title,
-  PostForm,
-} from './TodoListContainer.style';
+import { TodoListContainer as OuterContainer, InnerContainer, Title, PostForm } from './Todo.style';
 
-function TodoListContainer() {
+function Todo() {
   const navigate = useNavigate();
   const [todoList, setTodoList] = useState([]);
   const [addTodoInputValue, setAddTodoInputValue] = useState('');
@@ -144,4 +139,4 @@ function TodoListContainer() {
   );
 }
 
-export default TodoListContainer;
+export default Todo;

@@ -9,7 +9,7 @@ import {
   ModifyBtn,
   ModifyInput,
   Title,
-} from './index.style';
+} from './List.style';
 
 function List({ id, todo, isCompleted, handleIsCompleteTodo, handleDeleteTodo, handleUpdateTodo }) {
   const [isModify, setIsModify] = useState(false);

@@ -1,6 +1,7 @@
 export const ROUTE = {
   MAIN: '/',
   TODO: '/todo',
+  NOT_FOUND: '*',
 };
 
 export const API_URL = {

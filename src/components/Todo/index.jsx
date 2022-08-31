@@ -1,7 +1,7 @@
 import TodoListContainer from './TodoListContainer';
 
-function TodoList() {
+function Todo() {
   return <TodoListContainer />;
 }
 
-export default TodoList;
+export default Todo;

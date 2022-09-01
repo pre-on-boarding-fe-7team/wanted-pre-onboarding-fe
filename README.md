@@ -100,7 +100,7 @@ git hook 설정을 도와주는 npm package인 \***\*Husky\*\***를 통해서 pr
 ## 협업 - React template 규칙
 
 - eslint, prettier, husky install
-- 최적화를 위한 onChange 사용시 useCallbback() & 자식컴포로 보내주는 함수: 부모컴포에서 반드시 useCallback()처리
+- 최적화를 위한 onChange 사용시 useCallback() & 자식컴포로 보내주는 함수: 부모컴포에서 반드시 useCallback()처리
 - React router사용시 app.js와 분리
 - 경로 등 반복되는 코드의 관리파일 별도로 분리
 - CRA사용시 public>index.html 제외 모두 지우기 / src>app.js, index.js 제외 모두 지우기

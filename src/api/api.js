@@ -7,12 +7,10 @@ const get = async endpoint => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   });
-  const result = await res.json();
-
-  if (result.statusCode >= 400) {
-    alert(result.message);
-    throw new Error(result.error);
+  if (!res.ok) {
+    throw new Error(`${res.status.toString()} Error 인한 요청 실패!`);
   }
+  const result = await res.json();
 
   return result;
 };
@@ -27,12 +25,10 @@ const post = async (endpoint, data) => {
     },
     body: JSON.stringify(data),
   });
-  const result = await res.json();
-
-  if (result.statusCode >= 400) {
-    alert(result.message);
-    throw new Error(result.error);
+  if (!res.ok) {
+    throw new Error(`${res.status.toString()} Error 인한 요청 실패!`);
   }
+  const result = await res.json();
 
   return result;
 };
@@ -47,12 +43,10 @@ const put = async (endpoint, data) => {
     },
     body: JSON.stringify(data),
   });
-  const result = await res.json();
-
-  if (result.statusCode >= 400) {
-    alert(result.message);
-    throw new Error(result.error);
+  if (!res.ok) {
+    throw new Error(`${res.status.toString()} Error 인한 요청 실패!`);
   }
+  const result = await res.json();
 
   return result;
 };
@@ -66,7 +60,6 @@ const del = async endpoint => {
     },
   });
   if (!res.ok) {
-    alert('요청이 실패 했습니다!');
     throw new Error(`${res.status.toString()} Error 인한 요청 실패!`);
   }
 };

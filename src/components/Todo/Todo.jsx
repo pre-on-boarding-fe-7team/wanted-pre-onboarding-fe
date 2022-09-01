@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import getMessage from '../../common/utils/getMessage';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
 import List from './List';
 import { TodoListContainer as OuterContainer, InnerContainer, Title, PostForm } from './Todo.style';
@@ -35,7 +36,7 @@ function Todo() {
     try {
       await deleteTodoList(id);
       getTodos();
-      alert(`TodoList에서 ${modifyTodoInputValue}(이)가 삭제되었습니다.`);
+      alert(getMessage('DELETE', modifyTodoInputValue));
     } catch (e) {
       throw new Error(e);
     }
@@ -45,7 +46,7 @@ function Todo() {
     try {
       await updateTodoList(modifiedTodo, id, isCompleted);
       handleChangeUpdateTodo(modifiedTodo, id);
-      alert(`${modifiedTodo}(으)로 수정되었습니다.`);
+      alert(getMessage('UPDATE', modifiedTodo));
     } catch (e) {
       throw new Error(e);
     }
@@ -65,11 +66,10 @@ function Todo() {
       });
     });
     await updateTodoList(todo, id, isCompleted);
-    if (isCompleted) {
-      alert(`${todo}이(가) 완료 처리되었습니다.`);
-    } else {
-      alert(`${todo}이(가) 미완료 처리되었습니다.`);
-    }
+    alert(getMessage(
+      isCompleted ? 'COMPLETED' : 'NOT_COMPLETE', 
+      todo
+    ));
   };
   const handleChangeUpdateTodo = (todo, id) => {
     setTodoList(cur => {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE } from '../../common/utils/constant';
-import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import { post } from '../../api/api';
-import { Container, Span } from './AuthForm.style';
+import { ROUTE } from '../../common/utils/constant';
 import getMessage from '../../common/utils/getMessage';
+import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import useInput from '../../hooks/useInput';
+import { useNavigate } from 'react-router-dom';
+import { Container, Span } from './AuthForm.style';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
       <Container>
         <label>
           이메일
-          <input type="email" name="email" value={email} onChange={onChangeEmail} />
+          <input type="email" name="email" value={email} onChange={onChangeEmail} autoFocus />
         </label>
         {!isValidEmail && <Span>이메일 주소를 정확히 입력해주세요.</Span>}
       </Container>

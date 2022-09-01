@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import getMessage from '../../common/utils/getMessage';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
 import List from './List';
 import { TodoListContainer as OuterContainer, InnerContainer, Title, PostForm } from './Todo.style';
+import useInput from "../../hooks/useInput";
 
 function Todo() {
   const navigate = useNavigate();
   const [todoList, setTodoList] = useState([]);
-  const [addTodoInputValue, setAddTodoInputValue] = useState('');
+  const [addTodoInputValue, handleChangeAddTodo, setAddTodoInputValue] = useInput("")
 
   const getTodos = async () => {
     try {
@@ -23,7 +25,7 @@ function Todo() {
     try {
       await postTodoList(addTodoInputValue);
       getTodos();
-      clearTodoInput();
+      setAddTodoInputValue("")
       alert(`TodoList에 ${addTodoInputValue}(이)가 추가되었습니다.`);
     } catch (e) {
       throw new Error(e);
@@ -34,7 +36,7 @@ function Todo() {
     try {
       await deleteTodoList(id);
       getTodos();
-      alert(`TodoList에서 ${modifyTodoInputValue}(이)가 삭제되었습니다.`);
+      alert(getMessage('DELETE', modifyTodoInputValue));
     } catch (e) {
       throw new Error(e);
     }
@@ -44,17 +46,10 @@ function Todo() {
     try {
       await updateTodoList(modifiedTodo, id, isCompleted);
       handleChangeUpdateTodo(modifiedTodo, id);
-      alert(`${modifiedTodo}(으)로 수정되었습니다.`);
+      alert(getMessage('UPDATE', modifiedTodo));
     } catch (e) {
       throw new Error(e);
     }
-  };
-
-  const clearTodoInput = () => {
-    setAddTodoInputValue('');
-  };
-  const handleChangeAddTodo = e => {
-    setAddTodoInputValue(e.target.value);
   };
 
   const handleIsCompleteTodo = async (todo, id, isCompleted) => {
@@ -71,11 +66,10 @@ function Todo() {
       });
     });
     await updateTodoList(todo, id, isCompleted);
-    if (isCompleted) {
-      alert(`${todo}이(가) 완료 처리되었습니다.`);
-    } else {
-      alert(`${todo}이(가) 미완료 처리되었습니다.`);
-    }
+    alert(getMessage(
+      isCompleted ? 'COMPLETED' : 'NOT_COMPLETE', 
+      todo
+    ));
   };
   const handleChangeUpdateTodo = (todo, id) => {
     setTodoList(cur => {

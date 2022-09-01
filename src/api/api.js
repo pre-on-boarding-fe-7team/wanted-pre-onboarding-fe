@@ -1,3 +1,5 @@
+import getMessage from '../common/utils/getMessage';
+
 const baseUrl = String(process.env.REACT_APP_SERVER_URL);
 
 const get = async endpoint => {
@@ -66,8 +68,8 @@ const del = async endpoint => {
     },
   });
   if (!res.ok) {
-    alert('요청이 실패 했습니다!');
-    throw new Error(`${res.status.toString()} Error 인한 요청 실패!`);
+    alert(getMessage('REQUEST_FAILED'));
+    throw new Error(getMessage('ERROR', res.status.toString()));
   }
 };
 

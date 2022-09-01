@@ -1,6 +1,6 @@
-import getMessage from "../common/utils/getMessage";
+import getMessage from '../common/utils/getMessage';
 
-const baseUrl = 'https://n38lcff1wk.execute-api.ap-northeast-2.amazonaws.com/';
+const baseUrl = String(process.env.REACT_APP_SERVER_URL);
 
 const get = async endpoint => {
   const url = baseUrl + endpoint;

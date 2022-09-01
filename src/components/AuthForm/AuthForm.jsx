@@ -4,6 +4,7 @@ import { ROUTE } from '../../common/utils/constant';
 import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import { post } from '../../api/api';
 import { Container, Span } from './AuthForm.style';
+import getMessage from '../../common/utils/getMessage';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   };
 
   const changeRegisterToLogin = () => {
-    alert('회원가입에 성공했습니다! 로그인 페이지로 이동합니다.');
+    alert(getMessage('SIGNUP'));
     setFormValues(cur => {
       return {
         ...cur,

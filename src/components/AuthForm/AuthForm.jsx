@@ -59,7 +59,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
       <Container>
         <label>
           이메일
-          <input type="email" name="email" value={email} onChange={onChangeEmail} />
+          <input type="email" name="email" value={email} onChange={onChangeEmail} autoFocus />
         </label>
         {!isValidEmail && <Span>이메일 주소를 정확히 입력해주세요.</Span>}
       </Container>

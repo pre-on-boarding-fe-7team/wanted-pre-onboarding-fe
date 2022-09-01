@@ -127,7 +127,7 @@ function Todo() {
             {todoList?.map((todo, index) => (
               <List
                 {...todo}
-                key={`key-${index}`}
+                key={todo.id}
                 handleIsCompleteTodo={handleIsCompleteTodo}
                 handleDeleteTodo={handleDeleteTodo}
                 handleUpdateTodo={handleUpdateTodo}

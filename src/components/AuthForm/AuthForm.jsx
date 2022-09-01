@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE } from '../../common/utils/constant';
-import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import { post } from '../../api/api';
-import { Container, Span } from './AuthForm.style';
+import { ROUTE } from '../../common/utils/constant';
 import getMessage from '../../common/utils/getMessage';
+import { checkEmail, checkPassword } from '../../common/utils/checkValid';
 import useInput from '../../hooks/useInput';
+import { useNavigate } from 'react-router-dom';
+import { Container, Span } from './AuthForm.style';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();

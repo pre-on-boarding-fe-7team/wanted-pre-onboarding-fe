@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
 import List from './List';
 import { TodoListContainer as OuterContainer, InnerContainer, Title, PostForm } from './Todo.style';
+import useInput from "../../hooks/useInput";
 
 function Todo() {
   const navigate = useNavigate();
   const [todoList, setTodoList] = useState([]);
-  const [addTodoInputValue, setAddTodoInputValue] = useState('');
+  const [addTodoInputValue, handleChangeAddTodo, setAddTodoInputValue] = useInput("")
 
   const getTodos = async () => {
     try {
@@ -23,7 +24,7 @@ function Todo() {
     try {
       await postTodoList(addTodoInputValue);
       getTodos();
-      clearTodoInput();
+      setAddTodoInputValue("")
       alert(`TodoList에 ${addTodoInputValue}(이)가 추가되었습니다.`);
     } catch (e) {
       throw new Error(e);
@@ -48,13 +49,6 @@ function Todo() {
     } catch (e) {
       throw new Error(e);
     }
-  };
-
-  const clearTodoInput = () => {
-    setAddTodoInputValue('');
-  };
-  const handleChangeAddTodo = e => {
-    setAddTodoInputValue(e.target.value);
   };
 
   const handleIsCompleteTodo = async (todo, id, isCompleted) => {

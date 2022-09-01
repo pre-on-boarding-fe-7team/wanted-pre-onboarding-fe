@@ -4,7 +4,7 @@ const checkEmail = email => {
 };
 
 const checkPassword = password => {
-  return password.length >= 8;
+  return  password.length >= 8;
 };
 
 export { checkEmail, checkPassword };

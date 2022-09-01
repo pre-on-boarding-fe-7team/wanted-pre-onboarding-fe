@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE } from '../../common/utils/constant';
 import { checkEmail, checkPassword } from '../../common/utils/checkValid';
@@ -52,12 +52,23 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
     navigate(ROUTE.TODO);
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+  const inputRef = useRef();
+
   return (
     <form onSubmit={postForm}>
       <Container>
         <label>
           이메일
-          <input type="email" name="email" value={formValues.email} onChange={handleChange} />
+          <input
+            type="email"
+            name="email"
+            value={formValues.email}
+            onChange={handleChange}
+            ref={inputRef}
+          />
         </label>
       </Container>
       <Container>

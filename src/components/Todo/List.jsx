@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   BtnContainer,
   Button as SubmitBtn,
@@ -35,9 +35,12 @@ function List({ id, todo, isCompleted, handleIsCompleteTodo, handleDeleteTodo, h
   const handleChangeInputValue = e => {
     setModifyTodoInputValue(e.target.value);
   };
+
+  const inputRef = useRef();
+
   return (
     <Container>
-      <Form onSubmit={handleSubmitUpdateTodo}>
+      <Form onSubmit={handleSubmitUpdateTodo} ref={inputRef}>
         <Title
           isCompleted={isCompleted}
           isModify={isModify}

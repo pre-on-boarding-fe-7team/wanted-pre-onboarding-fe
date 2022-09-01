@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
 import List from './List';
@@ -92,6 +92,8 @@ function Todo() {
     });
   };
 
+  const inputRef = useRef();
+
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate('/');
@@ -101,6 +103,7 @@ function Todo() {
     } catch (e) {
       throw new Error(e);
     }
+    inputRef.current.focus();
   }, []);
 
   return (

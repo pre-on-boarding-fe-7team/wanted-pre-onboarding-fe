@@ -1,36 +1,26 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE } from '../../common/utils/constant';
-import { checkEmail, checkPassword } from '../../common/utils/checkValid';
-import { post } from '../../api/api';
-import { Container } from './AuthForm.style';
-import getMessage from '../../common/utils/getMessage';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../../common/utils/constant";
+import { checkEmail, checkPassword } from "../../common/utils/checkValid";
+import { post } from "../../api/api";
+import { Container } from "./AuthForm.style";
+import useInput from "../../hooks/useInput";
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState({
-    email: '',
-    password: '',
-  });
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassWord, passwordValue] = useInput("");
 
-  const handleChange = e => {
-    setFormValues(cur => {
-      const newValues = { ...cur };
-      newValues[e.target.name] = e.target.value;
-      return newValues;
-    });
-  };
-
-  const postForm = async e => {
+  const postForm = async (e) => {
     e.preventDefault();
     try {
       if (isLoginPage) {
-        const token = await post('/auth/signin', formValues);
+        const token = await post("/auth/signin", {email, password});
 
-        localStorage.setItem('token', token.access_token);
+        localStorage.setItem("token", token.access_token);
         redirectToTodoPage();
       } else {
-        await post('/auth/signup', formValues);
+        await post("/auth/signup",{email, password});
         changeRegisterToLogin();
       }
     } catch (e) {
@@ -39,13 +29,8 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   };
 
   const changeRegisterToLogin = () => {
-    alert(getMessage('SIGNUP'));
-    setFormValues(cur => {
-      return {
-        ...cur,
-        password: '',
-      };
-    });
+    alert("회원가입에 성공했습니다! 로그인 페이지로 이동합니다.");
+    passwordValue('');
     handleSetIsLoginPage(true);
   };
 
@@ -58,7 +43,12 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
       <Container>
         <label>
           이메일
-          <input type="email" name="email" value={formValues.email} onChange={handleChange} />
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChangeEmail}
+          />
         </label>
       </Container>
       <Container>
@@ -67,9 +57,9 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
           <input
             type="password"
             name="password"
-            value={formValues.password}
+            value={password}
             autoComplete="true"
-            onChange={handleChange}
+            onChange={onChangePassWord}
           />
         </label>
       </Container>
@@ -77,7 +67,11 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
         <input
           type="submit"
           value="Submit"
-          disabled={!(checkEmail(formValues.email) && checkPassword(formValues.password))}
+          disabled={
+            !(
+              checkEmail(email) && checkPassword(password)
+            )
+          }
         />
       }
     </form>

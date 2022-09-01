@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import getMessage from '../../common/utils/getMessage';
 import { deleteTodoList, getTodoList, postTodoList, updateTodoList } from './api';
+import getMessage from '../../common/utils/getMessage';
+import useInput from '../../hooks/useInput';
 import List from './List';
+import { useNavigate } from 'react-router-dom';
 import { TodoListContainer as OuterContainer, InnerContainer, Title, PostForm } from './Todo.style';
-import useInput from "../../hooks/useInput";
 
 function Todo() {
   const navigate = useNavigate();
   const [todoList, setTodoList] = useState([]);
-  const [addTodoInputValue, handleChangeAddTodo, setAddTodoInputValue] = useInput("")
+  const [addTodoInputValue, handleChangeAddTodo, setAddTodoInputValue] = useInput('');
 
   const getTodos = async () => {
     try {
       const result = await getTodoList();
       setTodoList(result);
     } catch (e) {
+      alert(getMessage('REQUEST_FAILED'));
       throw new Error(e);
     }
   };
@@ -25,9 +26,10 @@ function Todo() {
     try {
       await postTodoList(addTodoInputValue);
       getTodos();
-      setAddTodoInputValue("")
-      alert(`TodoList에 ${addTodoInputValue}(이)가 추가되었습니다.`);
+      setAddTodoInputValue('');
+      alert(getMessage('CREATE', addTodoInputValue));
     } catch (e) {
+      alert(getMessage('REQUEST_FAILED'));
       throw new Error(e);
     }
   };
@@ -38,6 +40,7 @@ function Todo() {
       getTodos();
       alert(getMessage('DELETE', modifyTodoInputValue));
     } catch (e) {
+      alert(getMessage('REQUEST_FAILED'));
       throw new Error(e);
     }
   };
@@ -48,28 +51,31 @@ function Todo() {
       handleChangeUpdateTodo(modifiedTodo, id);
       alert(getMessage('UPDATE', modifiedTodo));
     } catch (e) {
+      alert(getMessage('REQUEST_FAILED'));
       throw new Error(e);
     }
   };
 
   const handleIsCompleteTodo = async (todo, id, isCompleted) => {
-    setTodoList(cur => {
-      return cur.map(todo => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            isCompleted: isCompleted,
-          };
-        } else {
-          return todo;
-        }
+    try {
+      await updateTodoList(todo, id, isCompleted);
+      alert(getMessage(isCompleted ? 'COMPLETED' : 'NOT_COMPLETE', todo));
+      setTodoList(cur => {
+        return cur.map(todo => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              isCompleted: isCompleted,
+            };
+          } else {
+            return todo;
+          }
+        });
       });
-    });
-    await updateTodoList(todo, id, isCompleted);
-    alert(getMessage(
-      isCompleted ? 'COMPLETED' : 'NOT_COMPLETE', 
-      todo
-    ));
+    } catch (e) {
+      alert(getMessage('REQUEST_FAILED'));
+      throw new Error(e);
+    }
   };
   const handleChangeUpdateTodo = (todo, id) => {
     setTodoList(cur => {
@@ -110,6 +116,7 @@ function Todo() {
                 name="todoList"
                 value={addTodoInputValue}
                 onChange={handleChangeAddTodo}
+                autoFocus
               />
             </label>
             <input type="submit" value="할 일 추가" />

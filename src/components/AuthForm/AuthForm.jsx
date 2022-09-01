@@ -1,26 +1,27 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { ROUTE } from "../../common/utils/constant";
-import { checkEmail, checkPassword } from "../../common/utils/checkValid";
-import { post } from "../../api/api";
-import { Container } from "./AuthForm.style";
-import useInput from "../../hooks/useInput";
+import React, { useState, useEffect } from 'react';
+import { post } from '../../api/api';
+import { ROUTE } from '../../common/utils/constant';
+import getMessage from '../../common/utils/getMessage';
+import { checkEmail, checkPassword } from '../../common/utils/checkValid';
+import useInput from '../../hooks/useInput';
+import { useNavigate } from 'react-router-dom';
+import { Container, Span } from './AuthForm.style';
 
 function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   const navigate = useNavigate();
-  const [email, onChangeEmail] = useInput("");
-  const [password, onChangePassWord, passwordValue] = useInput("");
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassWord, passwordValue] = useInput('');
 
-  const postForm = async (e) => {
+  const postForm = async e => {
     e.preventDefault();
     try {
       if (isLoginPage) {
-        const token = await post("/auth/signin", {email, password});
+        const token = await post('/auth/signin', { email, password });
 
-        localStorage.setItem("token", token.access_token);
+        localStorage.setItem('token', token.access_token);
         redirectToTodoPage();
       } else {
-        await post("/auth/signup",{email, password});
+        await post('/auth/signup', { email, password });
         changeRegisterToLogin();
       }
     } catch (e) {
@@ -29,7 +30,7 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
   };
 
   const changeRegisterToLogin = () => {
-    alert("회원가입에 성공했습니다! 로그인 페이지로 이동합니다.");
+    alert(getMessage('SIGNUP'));
     passwordValue('');
     handleSetIsLoginPage(true);
   };
@@ -38,18 +39,29 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
     navigate(ROUTE.TODO);
   };
 
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const emailValidation = () => {
+    email.length > 0 && !checkEmail(email) ? setIsValidEmail(false) : setIsValidEmail(true);
+  };
+
+  const [isValidPw, setIsValidPw] = useState(false);
+  const pwValidation = () => {
+    password.length > 0 && !checkPassword(password) ? setIsValidPw(false) : setIsValidPw(true);
+  };
+
+  useEffect(() => {
+    emailValidation();
+    pwValidation();
+  });
+
   return (
     <form onSubmit={postForm}>
       <Container>
         <label>
           이메일
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChangeEmail}
-          />
+          <input type="email" name="email" value={email} onChange={onChangeEmail} autoFocus />
         </label>
+        {!isValidEmail && <Span>이메일 주소를 정확히 입력해주세요.</Span>}
       </Container>
       <Container>
         <label>
@@ -62,16 +74,13 @@ function AuthForm({ isLoginPage, handleSetIsLoginPage }) {
             onChange={onChangePassWord}
           />
         </label>
+        {!isValidPw && <Span>8글자 이상 입력해주시요.</Span>}
       </Container>
       {
         <input
           type="submit"
           value="Submit"
-          disabled={
-            !(
-              checkEmail(email) && checkPassword(password)
-            )
-          }
+          disabled={!(checkEmail(email) && checkPassword(password))}
         />
       }
     </form>
